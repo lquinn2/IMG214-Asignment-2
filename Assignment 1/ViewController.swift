@@ -152,24 +152,24 @@ class ViewController: UIViewController {
         secondNumber = Double(Int(arc4random_uniform(UInt32(difficulty))))
         assignLabels()
     }
-    @IBAction func infoButton() {
-        let alert = UIAlertController(title: "New Question",
-                                      message: "Old answer was \(String(answer))",
-                                      preferredStyle: .alert)
-        
-        let action = UIAlertAction(title: "OK",
-                                   style: .default,
-                                   handler: nil)
-        
-        alert.addAction(action)
-        
-        present(alert, animated: true, completion: nil)
-        firstNumber = Double(Int(arc4random_uniform(UInt32(difficulty))))
-        secondNumber = Double(Int(arc4random_uniform(UInt32(difficulty))))
-        self.operatorInUse = operatorArray[Int(arc4random_uniform(3))]
-        checkOperator()
-        assignLabels()
-    }
+//    @IBAction func infoButton() {
+//        let alert = UIAlertController(title: "New Question",
+//                                      message: "Old answer was \(String(answer))",
+//                                      preferredStyle: .alert)
+//
+//        let action = UIAlertAction(title: "OK",
+//                                   style: .default,
+//                                   handler: nil)
+//
+//        alert.addAction(action)
+//
+//        present(alert, animated: true, completion: nil)
+//        firstNumber = Double(Int(arc4random_uniform(UInt32(difficulty))))
+//        secondNumber = Double(Int(arc4random_uniform(UInt32(difficulty))))
+//        self.operatorInUse = operatorArray[Int(arc4random_uniform(3))]
+//        checkOperator()
+//        assignLabels()
+//    }
 }
 
 
