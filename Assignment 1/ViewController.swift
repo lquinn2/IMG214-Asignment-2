@@ -9,7 +9,7 @@
 import UIKit
 
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextInputTraits, UITextFieldDelegate {
     
     enum UIKeyboardType : Int {
         case namePhonePad = 6
@@ -21,12 +21,14 @@ class ViewController: UIViewController {
         assignLabels()
         self.operatorLabel.text = operatorInUse
         checkOperator()
+        //// Does not work on XCode 9.2
+        //inputField.keyboardType = UIKeyboardType.numberPad
     }
     
-    var firstNumber: Double = Double(Int(arc4random_uniform(10)))
-    var secondNumber: Double = Double(Int(arc4random_uniform(10)))
+    var firstNumber: Int = Int(arc4random_uniform(10))
+    var secondNumber: Int = Int(arc4random_uniform(10))
     var operatorArray = ["*", "/", "+", "-"]
-    var answer: Double = 0
+    var answer: Int = 0
     var round: Int = 0
     var score: Int = 0
     var operatorInUse = "+"
@@ -39,15 +41,12 @@ class ViewController: UIViewController {
         if operatorInUse == "*" {
             answer = firstNumber * secondNumber
         } else if operatorInUse == "/" {
-            secondNumber = Double(Int(arc4random_uniform(10)))
-            if (firstNumber == 0.0) || (firstNumber == 3.0) || (firstNumber == 5.0) || (firstNumber == 7.0) || (firstNumber == 9.0) || (firstNumber == 11.0) || (firstNumber == 13.0) || (firstNumber == 15.0) || (firstNumber == 17.0) || (firstNumber == 19.0) {
-                firstNumber += 1
-            }
-            if (secondNumber == 0.0) || (secondNumber == 3.0) || (secondNumber == 5.0) || (secondNumber == 7.0) || (secondNumber == 9.0) || (secondNumber == 11.0) || (secondNumber == 13.0) || (secondNumber == 15.0) || (secondNumber == 17.0) || (secondNumber == 19.0){
+            secondNumber = Int(arc4random_uniform(10))
+            if (secondNumber == 0){
                 secondNumber += 1
             }
-            self.firstLabel.text = String(Int(firstNumber)) + "!"
-            self.secondLabel.text = String(Int(secondNumber)) + "!"
+            self.firstLabel.text = String(Int(firstNumber))
+            self.secondLabel.text = String(Int(secondNumber))
             answer = firstNumber / secondNumber
         } else if operatorInUse == "+" {
             answer = firstNumber + secondNumber
@@ -78,28 +77,28 @@ class ViewController: UIViewController {
             ans = 0
         }
         
-        if Double(answer) == Double(ans) {
+        if Int(answer) == Int(ans) {
             score += 5
             round += 1
             self.operatorInUse = operatorArray[Int(arc4random_uniform(3))]
             title = "Correct"
             message += "\n You are CORRECT!"
-            firstNumber = Double(Int(arc4random_uniform(UInt32(difficulty))))
-            secondNumber = Double(Int(arc4random_uniform(UInt32(difficulty))))
+            message += "\n You have completed \(round) / \(levels[level]) of this level"
+            firstNumber = Int(arc4random_uniform(UInt32(difficulty)))
+            secondNumber = Int(arc4random_uniform(UInt32(difficulty)))
             checkOperator()
             assignLabels()
         } else {
             round = 0
             message += "\n That is incorrect"
-            message += "\n Level progress has been reset"
-            message += "\n Try again"
+            message += "\n Level progress has been reset, try again"
             title = "Incorrect"
         }
         
         if round == levels[level] {
             round = 0
+            score = score + ((level + 1) * 15)
             message += "\n You have completed level \(level + 1)"
-            score += (level * 15)
             if level != 3 {
                level += 1
             }
@@ -143,33 +142,21 @@ class ViewController: UIViewController {
     @IBOutlet weak var scoreLabel: UILabel!
     
     @IBOutlet weak var levelLabel: UILabel!
+    
 
     @IBAction func startOverButton() {
         score = 0
         round = 0
         level = 0
-        firstNumber = Double(Int(arc4random_uniform(UInt32(difficulty))))
-        secondNumber = Double(Int(arc4random_uniform(UInt32(difficulty))))
+        operatorInUse = "+"
+        firstNumber = Int(arc4random_uniform(UInt32(difficulty)))
+        secondNumber = Int(arc4random_uniform(UInt32(difficulty)))
+        answer = firstNumber + secondNumber
         assignLabels()
     }
-//    @IBAction func infoButton() {
-//        let alert = UIAlertController(title: "New Question",
-//                                      message: "Old answer was \(String(answer))",
-//                                      preferredStyle: .alert)
-//
-//        let action = UIAlertAction(title: "OK",
-//                                   style: .default,
-//                                   handler: nil)
-//
-//        alert.addAction(action)
-//
-//        present(alert, animated: true, completion: nil)
-//        firstNumber = Double(Int(arc4random_uniform(UInt32(difficulty))))
-//        secondNumber = Double(Int(arc4random_uniform(UInt32(difficulty))))
-//        self.operatorInUse = operatorArray[Int(arc4random_uniform(3))]
-//        checkOperator()
-//        assignLabels()
-//    }
+}
+
+class Quiz {
 }
 
 
